@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name xpe_25pcs-rescue)(type Legacy)(uri ${KIPRJMOD}/xpe_25pcs-rescue.lib)(options "")(descr ""))
+  (lib (name 74xx)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/74xx.lib)(options "")(descr "")(disabled))
+  (lib (name led)(type Legacy)(uri ${KIPRJMOD}/../../models/led.lib)(options "")(descr ""))
+)

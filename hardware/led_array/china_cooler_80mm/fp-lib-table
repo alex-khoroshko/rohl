@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name models)(type KiCad)(uri /home/alex/software/rohl/hardware/models)(options "")(descr ""))
+  (lib (name led)(type KiCad)(uri /home/alex/software/rohl/hardware/models/led.pretty)(options "")(descr ""))
+)
