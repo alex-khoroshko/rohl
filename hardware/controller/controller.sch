@@ -1931,4 +1931,8 @@ Wire Wire Line
 	4850 3200 5100 3200
 Wire Wire Line
 	4850 3300 5100 3300
+Text Notes 7000 7050 0    50   ~ 0
+Copyright Alexander Khoroshko 2018.\nThis   documentation   describes   Open   Hardware   and   is   licensed   under   the CERN OHL v. 1.2. \nYou may redistribute and modify this documentation under the terms of the CERN OHL v.1.2. \nThis documentation is distributed WITHOUT   ANY   EXPRESS   OR   IMPLIED   WARRANTY,   INCLUDING \nOF MERCHANTABILITY,   SATISFACTORY   QUALITY   AND   FITNESS   FOR   A PARTICULAR   PURPOSE.   \nPlease   see   the   CERN   OHL   v.1.2  for   applicable conditions.
+Text Notes 7400 7500 0    50   ~ 0
+Reef open hardware light (ROHL) controller
 $EndSCHEMATC

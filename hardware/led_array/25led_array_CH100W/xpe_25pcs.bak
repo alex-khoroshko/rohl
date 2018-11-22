@@ -331,8 +331,8 @@ $Comp
 L Device:Thermistor TH1
 U 1 1 5C0B8E85
 P 6750 3750
-F 0 "TH1" H 6855 3796 50  0000 L CNN
-F 1 "Thermistor" H 6855 3705 50  0000 L CNN
+F 0 "TH1" H 6850 3750 50  0000 L CNN
+F 1 "NTCS0603E3103" H 6855 3705 50  0001 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 6750 3750 50  0001 C CNN
 F 3 "~" H 6750 3750 50  0001 C CNN
 	1    6750 3750
@@ -456,4 +456,6 @@ Wire Wire Line
 	6700 2500 6700 2750
 Wire Wire Line
 	6600 2700 6600 2850
+Text Notes 7050 7100 0    50   ~ 0
+Copyright Alexander Khoroshko 2018.\nThis   documentation   describes   Open   Hardware   and   is   licensed   under   the CERN OHL v. 1.2. \nYou may redistribute and modify this documentation under the terms of the CERN OHL v.1.2. \nThis documentation is distributed WITHOUT   ANY   EXPRESS   OR   IMPLIED   WARRANTY,   INCLUDING \nOF MERCHANTABILITY,   SATISFACTORY   QUALITY   AND   FITNESS   FOR   A PARTICULAR   PURPOSE.   \nPlease   see   the   CERN   OHL   v.1.2  for   applicable conditions.
 $EndSCHEMATC
