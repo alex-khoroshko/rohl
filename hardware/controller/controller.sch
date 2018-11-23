@@ -1537,7 +1537,7 @@ L Device:D_Schottky D4
 U 1 1 5C00B8E0
 P 2550 3500
 F 0 "D4" V 2500 3300 50  0000 L CNN
-F 1 "SS14FL" V 2600 3050 50  0000 L CNN
+F 1 "SS14FL" V 2600 3150 50  0000 L CNN
 F 2 "Diode_SMD:D_SOD-123F" H 2550 3500 50  0001 C CNN
 F 3 "~" H 2550 3500 50  0001 C CNN
 	1    2550 3500
@@ -1932,7 +1932,40 @@ Wire Wire Line
 Wire Wire Line
 	4850 3300 5100 3300
 Text Notes 7000 7050 0    50   ~ 0
-Copyright Alexander Khoroshko 2018.\nThis   documentation   describes   Open   Hardware   and   is   licensed   under   the CERN OHL v. 1.2. \nYou may redistribute and modify this documentation under the terms of the CERN OHL v.1.2. \nThis documentation is distributed WITHOUT   ANY   EXPRESS   OR   IMPLIED   WARRANTY,   INCLUDING \nOF MERCHANTABILITY,   SATISFACTORY   QUALITY   AND   FITNESS   FOR   A PARTICULAR   PURPOSE.   \nPlease   see   the   CERN   OHL   v.1.2  for   applicable conditions.
+Copyright Alexander Khoroshko 2018.\nThis documentation describes Open Hardware and is licensed under the CERN OHL v. 1.2. \nYou may redistribute and modify this documentation under the terms of the CERN OHL v.1.2. \nThis documentation is distributed WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING \nOF MERCHANTABILITY, SATISFACTORY QUALITY AND FITNESS FOR A PARTICULAR PURPOSE.   \nPlease see the CERN OHL v.1.2 for applicable conditions.
 Text Notes 7400 7500 0    50   ~ 0
 Reef open hardware light (ROHL) controller
+$Comp
+L Connector:Conn_01x03_Male J4
+U 1 1 5C05988F
+P 8750 4550
+F 0 "J4" H 8723 4573 50  0000 R CNN
+F 1 "Input power" H 9050 4750 50  0000 R CNN
+F 2 "Connector:FanPinHeader_1x03_P2.54mm_Vertical" H 8750 4550 50  0001 C CNN
+F 3 "~" H 8750 4550 50  0001 C CNN
+	1    8750 4550
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0167
+U 1 1 5C05F624
+P 8550 4650
+F 0 "#PWR0167" H 8550 4400 50  0001 C CNN
+F 1 "GND" V 8555 4477 50  0000 C CNN
+F 2 "" H 8550 4650 50  0001 C CNN
+F 3 "" H 8550 4650 50  0001 C CNN
+	1    8550 4650
+	0    1    1    0   
+$EndComp
+$Comp
+L power:VDD #PWR0170
+U 1 1 5C05FBC5
+P 8550 4550
+F 0 "#PWR0170" H 8550 4400 50  0001 C CNN
+F 1 "VDD" V 8567 4723 50  0000 C CNN
+F 2 "" H 8550 4550 50  0001 C CNN
+F 3 "" H 8550 4550 50  0001 C CNN
+	1    8550 4550
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC
