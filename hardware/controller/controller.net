@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/alex/software/rohl/hardware/controller/controller.sch)
-    (date "Пт 23 ноя 2018 20:45:28")
+    (date "Вс 25 ноя 2018 22:38:38")
     (tool "Eeschema 5.0.1-33cea8e~68~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
