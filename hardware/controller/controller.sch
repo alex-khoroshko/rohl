@@ -1724,7 +1724,7 @@ F 3 "" H 1600 3700 50  0001 C CNN
 	1    1600 3700
 	0    -1   -1   0   
 $EndComp
-Text GLabel 4850 3000 0    50   Output ~ 0
+Text GLabel 7150 3050 2    50   Output ~ 0
 12v~SHDN
 Wire Wire Line
 	4850 3000 5100 3000
@@ -1793,7 +1793,7 @@ L Device:D_Zener D5
 U 1 1 5C07F730
 P 5700 7350
 F 0 "D5" V 5650 7150 50  0000 L CNN
-F 1 "5v1" V 5750 7150 50  0000 L CNN
+F 1 "BZV55C5V1" V 5750 6850 50  0000 L CNN
 F 2 "Diode_SMD:D_MiniMELF" H 5700 7350 50  0001 C CNN
 F 3 "~" H 5700 7350 50  0001 C CNN
 	1    5700 7350
@@ -1968,4 +1968,17 @@ F 3 "" H 8550 4550 50  0001 C CNN
 	1    8550 4550
 	0    -1   -1   0   
 $EndComp
+Text GLabel 6450 4100 0    50   Input ~ 0
+usb_present
+Wire Wire Line
+	6500 3950 6500 4100
+Wire Wire Line
+	6500 4100 6450 4100
+Text GLabel 2800 6550 2    50   Output ~ 0
+usb_present
+Wire Wire Line
+	2700 6550 2800 6550
+Connection ~ 2700 6550
+Wire Wire Line
+	6950 3050 7150 3050
 $EndSCHEMATC
