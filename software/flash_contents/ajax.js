@@ -28,3 +28,17 @@ function updateStatus() {
     xhttp.send();
 }
 
+function setBrightness(chNum, brtVal) {
+	var xhttp = new XMLHttpRequest();
+	xhttp.timeout = 1000;
+    xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			connStateUpdate("Connected");
+		}
+    };
+	/*xhttp.onerror  = function() {
+		connStateUpdate("Disconnected");
+	};*/
+    xhttp.open("GET", "control.htm?cmd=set_brightn&val="+brtVal, true);
+    xhttp.send();
+}
