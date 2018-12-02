@@ -2,4 +2,5 @@
   (lib (name Regulator_Switching)(type Legacy)(uri /home/alex/software/rohl/hardware/models/Regulator_Switching.lib)(options "")(descr ""))
   (lib (name ESP32-footprints-Shem-Lib)(type Legacy)(uri /home/alex/software/rohl/hardware/models/ESP32-footprints-Shem-Lib.lib)(options "")(descr ""))
   (lib (name led)(type Legacy)(uri /home/alex/software/rohl/hardware/models/led.lib)(options "")(descr ""))
+  (lib (name controller-rescue)(type Legacy)(uri ${KIPRJMOD}/controller-rescue.lib)(options "")(descr ""))
 )
