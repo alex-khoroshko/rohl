@@ -29,7 +29,7 @@ class rohl_control:
 				print ("channel is " + n)
 				brt = float(params["val"])
 				self.brightness[n] = brt
-				print ("set brightness value" + brt)
+				print ("set brightness value " + brt)
 			except:
 				return
 				
