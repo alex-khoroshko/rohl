@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="sliders.css"> 
+  <link rel="stylesheet" type="text/css" href="index.css"> 
   
   <title>ROHL control page</title>
   <script>
@@ -14,9 +14,11 @@
    ]
    function changeNum(val,chNum) {
     document.getElementById("sliderV"+chNum).value = val;
+	setBrightness(chNum,val);
    }
    function changeSlider(val,chNum) {
     document.getElementById("sliderP"+chNum).value = val;
+	setBrightness(chNum,val);
    }
    function fillSliders() {
      for (i=0; i<sliders_cfg.length; i++) {
