@@ -2,11 +2,18 @@
 # -*- coding: <utf-8> -*-
 
 import socket 
+import json
 
 #4 channels
 debug = True
 ch_num = 4
 brightness = [0.0] * ch_num
+ch_cfg = [
+	{"color":"white", "name":"Cold white", 	"val":0.0},
+	{"color":"white", "name":"Warm white", 	"val":0.0},
+	{"color":"white", "name":"Blue", 	"val":0.0},
+	{"color":"white", "name":"Royal blue", 	"val":0.0}
+]
 
 #TODO: all conn actions should be in try block (connection can be closed)
 
@@ -30,6 +37,10 @@ def send_file_js (conn, fi):
 def send_file_ico (conn, fi):
 	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: image/x-icon\r\n\r\n')
 	send_file (conn, fi)
+
+def send_json_contents (conn, content):
+	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: application/json\r\n\r\n')
+	conn.sendall(content)
 
 def send_file_400 (conn):
 	conn.sendall(b'HTTP/1.1 400 Bad Request\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n')
@@ -95,6 +106,13 @@ def process_string_purified (conn, req_string_purified):
 				send_file_400 (conn, "400.htm")
 		else: send_file_400 (conn, "400.htm")
 
+	elif (file_str=="ch_cfg.json"):
+		for i in range(ch_num):
+			 ch_cfg[i]['val'] = brightness[i]
+		print (ch_cfg)
+		send_json_contents(conn, json.dumps(ch_cfg).encode('utf-8'))
+		#
+		
 	elif ".css" in file_str:
 		send_file_css (conn, file_str)
 	elif ".js" in file_str:
@@ -141,7 +159,8 @@ def server_start ():
 			else:
 				process_string_purified(conn, req_string_purified)
 				
-		except:
+		except Exception as e: 
+			print(e)
 			send_file_400 (conn)
 			
 		conn.close()

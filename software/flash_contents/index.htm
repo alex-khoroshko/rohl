@@ -5,35 +5,8 @@
   <link rel="stylesheet" type="text/css" href="index.css"> 
   
   <title>ROHL control page</title>
-  <script>
-   var sliders_cfg = [
-	{color:"white", name:"Cold white"},
-	{color:"white", name:"Warm white"},
-	{color:"white", name:"Blue"},
-	{color:"white", name:"Royal blue"}
-   ]
-   function changeNum(val,chNum) {
-    document.getElementById("sliderV"+chNum).value = val;
-	setBrightness(chNum,val);
-   }
-   function changeSlider(val,chNum) {
-    document.getElementById("sliderP"+chNum).value = val;
-	setBrightness(chNum,val);
-   }
-   function fillSliders() {
-     for (i=0; i<sliders_cfg.length; i++) {
-	   sld = "<div>";
-	   sld += "<div class='slider_div_left'>" + sliders_cfg[i].name + "</div>";
-	   sld += "<div class='slider_div_center'><input type='range' min='0' max='100' id='sliderP" + i + "' oninput='changeNum(this.value, " + i + ")' value='0'></div>";
-	   sld += "<div class='slider_div_right'>";
-       sld += "<input class='slider_val' type='number' name='fname' id='sliderV" + i + "' value='0' oninput='changeSlider(this.value, " + i + ")' min='0', max='100'></div>";
-	   sld += "</div>";
-	   document.getElementById("sliders_div").innerHTML += sld;
-	 }
-   }
-  </script>
  </head>
- <body  onload="fillSliders();">
+ <body>
   <h2>Status: </h2>
   <div id="stateIndicator"></div>
   <h2>Brightness:</h2>
