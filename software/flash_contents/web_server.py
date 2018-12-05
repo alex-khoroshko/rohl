@@ -1,28 +1,30 @@
 import socket 
-import machine
-import network
 import rohl_control
-
-def rohl_ap_start ():
-	ap = network.WLAN(network.AP_IF)
-	ap.active(True)
-	ap.config(essid='ROHL')
-	ap.config(authmode=3, password='123456789')
 
 #4 channels
 rohl_ctl = rohl_control.ctl(4)
 debug = True
+
+#TODO: all conn actions should be in try block (connection can be closed)
 
 def send_file (conn, fi):
 	with open(fi, 'r') as html:
 		conn.send(html.read())
 		
 def send_file_200 (conn, fi):
-	conn.sendall('HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n')
+	conn.sendall(bytearray('HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n'))
+	send_file (conn, fi)
+	
+def send_file_css (conn, fi):
+	conn.sendall(bytearray('HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/css\r\n\r\n'))
+	send_file (conn, fi)
+	
+def send_file_js (conn, fi):
+	conn.sendall(bytearray('HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: application/javascript\r\n\r\n'))
 	send_file (conn, fi)
 
 def send_file_400 (conn):
-	conn.sendall('HTTP/1.1 400 Bad Request\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n')
+	conn.sendall(bytearray('HTTP/1.1 400 Bad Request\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n'))
 	send_file (conn, "400.htm")
 	
 def process_string_purified (conn, req_string_purified):
@@ -34,9 +36,18 @@ def process_string_purified (conn, req_string_purified):
 		file_str, param_str = req_string_purified.split("?",1)
 		print ("param string: '" + param_str + "'\n")
 		
-		params = dict(item.split("=") for item in param_str.split("&"))
-		print ("parameters dictionary: \n")
-		print (param_str)
+		#output 400 error if there are parameters, but no equal signs
+		if not "=" in param_str:
+			send_file_400(conn)
+			return
+		
+		#OK, equal symbol present. Check if there is only one parameter by absence of & symbol
+		if not "&" in param_str:
+			params = dict([param_str.split("=",1)])
+		else:
+			params = dict(item.split("=") for item in param_str.split("&"))
+		print ("parameters dictionary: ")
+		print (params)
 	else:
 		file_str = req_string_purified
 		
@@ -44,6 +55,10 @@ def process_string_purified (conn, req_string_purified):
 	if (file_str=="control.htm"):
 		if not rohl_ctl.process_request(params):
 			send_file_200 (conn, "400.htm")
+	elif ".css" in file_str:
+		send_file_css (conn, file_str)
+	elif ".js" in file_str:
+		send_file_js (conn, file_str)
 	else:
 		send_file_200 (conn, file_str)
 

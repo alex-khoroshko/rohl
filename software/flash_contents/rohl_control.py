@@ -10,16 +10,19 @@ class ctl:
 		if params["cmd"] == "set_brightn":
 			print ("set_brightn command\n")
 			try:
-				n = params["ch"]
+				print (params["ch"])
+				n = int(params["ch"])
+				print ("channel is " + str(n))
 				
 				if n >= self.ch_num:
 					raise
-				print ("channel is " + n)
-				brt = float(params["val"])
+				
+				brt = params["val"]
 				self.brightness[n] = brt
-				print ("set brightness value " + brt)
+				print ("set brightness value " + str(brt))
 				return True
-			except:
+			except Exception as e: 
+				print(e)
 				return False
 				
 		return False
