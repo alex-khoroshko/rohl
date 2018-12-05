@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: <utf-8> -*-
+
 import socket 
 import rohl_control
 
@@ -8,26 +11,34 @@ debug = True
 #TODO: all conn actions should be in try block (connection can be closed)
 
 def send_file (conn, fi):
-	with open(fi, 'r') as html:
-		conn.send(html.read())
+	with open(fi, 'rb') as html:
+		data = html.read()
+		conn.sendall(data)
 		
 def send_file_200 (conn, fi):
-	conn.sendall(bytearray('HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n'))
+	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n')
 	send_file (conn, fi)
 	
 def send_file_css (conn, fi):
-	conn.sendall(bytearray('HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/css\r\n\r\n'))
+	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/css\r\n\r\n')
 	send_file (conn, fi)
 	
 def send_file_js (conn, fi):
-	conn.sendall(bytearray('HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: application/javascript\r\n\r\n'))
+	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: application/javascript\r\n\r\n')
+	send_file (conn, fi)
+
+def send_file_ico (conn, fi):
+	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: image/x-icon\r\n\r\n')
 	send_file (conn, fi)
 
 def send_file_400 (conn):
-	conn.sendall(bytearray('HTTP/1.1 400 Bad Request\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n'))
+	conn.sendall(b'HTTP/1.1 400 Bad Request\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n')
 	send_file (conn, "400.htm")
 	
 def process_string_purified (conn, req_string_purified):
+	#variable params is used to check, if there were parameters in request. Define in to avoid exceptions
+	params = ""
+
 	#check if options, preceded with "?" symbol are present
 	if "?" in req_string_purified:
 		#split by "?" symbol. Left part - file name, right - parameters
@@ -53,12 +64,20 @@ def process_string_purified (conn, req_string_purified):
 		
 	print ("file string: '" + file_str + "'\n")
 	if (file_str=="control.htm"):
-		if not rohl_ctl.process_request(params):
+		if not params:
+			send_file_200 (conn, "200.htm")
+			return
+		
+		#params exist. process them
+		if not rohl_ctl.process_request(params_chk):
 			send_file_200 (conn, "400.htm")
+
 	elif ".css" in file_str:
 		send_file_css (conn, file_str)
 	elif ".js" in file_str:
 		send_file_js (conn, file_str)
+	elif ".ico" in file_str:
+		send_file_ico (conn, file_str)
 	else:
 		send_file_200 (conn, file_str)
 
@@ -98,12 +117,9 @@ def server_start ():
 				send_file_200 (conn, "index.htm")
 			else:
 				process_string_purified(conn, req_string_purified)
-
 				
 		except:
 			send_file_400 (conn)
 			
-		
-		#conn.sendall('\n')
 		conn.close()
 		print("Connection wth %s closed" % str(addr))

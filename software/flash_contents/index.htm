@@ -5,7 +5,7 @@
   <link rel="stylesheet" type="text/css" href="index.css"> 
   
   <title>ROHL control page</title>
-  <script>
+  <script onload="fillSliders();">
    var sliders_cfg = [
      {color:"white", name:"Cold white"},
 	 {color:"white", name:"Warm white"},
@@ -33,7 +33,7 @@
    }
   </script>
  </head>
- <body onload="fillSliders();">
+ <body>
   <h2>Status: </h2>
   <div id="stateIndicator"></div>
   <h2>Brightness:</h2>
