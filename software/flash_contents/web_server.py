@@ -2,11 +2,11 @@
 # -*- coding: <utf-8> -*-
 
 import socket 
-import rohl_control
 
 #4 channels
-rohl_ctl = rohl_control.ctl(4)
 debug = True
+ch_num = 4
+brightness = [0.0] * ch_num
 
 #TODO: all conn actions should be in try block (connection can be closed)
 
@@ -64,13 +64,36 @@ def process_string_purified (conn, req_string_purified):
 		
 	print ("file string: '" + file_str + "'\n")
 	if (file_str=="control.htm"):
+		#if parameters are not present - just send confirmation (used for connection check, for example)
 		if not params:
 			send_file_200 (conn, "200.htm")
 			return
 		
 		#params exist. process them
-		if not rohl_ctl.process_request(params_chk):
-			send_file_200 (conn, "400.htm")
+		if not "cmd" in params:
+			send_file_400 (conn, "400.htm")
+			return False
+			
+		if params["cmd"] == "set_brightn":
+			print ("set_brightn command\n")
+			try:
+				print (params["ch"])
+				n = int(params["ch"])
+				print ("channel is " + str(n))
+				
+				if n >= ch_num:
+					raise
+				
+				brt = params["val"]
+				brightness[n] = brt
+				print ("set brightness value " + str(brt))
+				#brigness is set. Send confirmation
+				send_file_200 (conn, "200.htm")
+
+			except Exception as e: 
+				print(e)
+				send_file_400 (conn, "400.htm")
+		else: send_file_400 (conn, "400.htm")
 
 	elif ".css" in file_str:
 		send_file_css (conn, file_str)

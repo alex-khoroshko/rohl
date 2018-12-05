@@ -1,5 +1,5 @@
 /*status interval*/
-connStateUpdate("Disconnected");
+connStateUpdate("Connected");
 var interStatus = setInterval(updateStatus,5000);
 
 
@@ -15,7 +15,7 @@ function connStateUpdate(state) {
 
 function updateStatus() {
 	var xhttp = new XMLHttpRequest();
-	xhttp.timeout = 1000;
+	xhttp.timeout = 2000;
     xhttp.onreadystatechange = function() {
 		if (this.readyState == 4) {
 			if (this.status == 200) {
@@ -33,6 +33,21 @@ function updateStatus() {
 }
 
 function setBrightness(chNum, brtVal) {
+	var xhttp = new XMLHttpRequest();
+	xhttp.timeout = 1000;
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			connStateUpdate("Connected");
+		}
+	};
+	/*xhttp.onerror  = function() {
+		connStateUpdate("Disconnected");
+	};*/
+	xhttp.open("GET", "control.htm?cmd=set_brightn&ch=" + chNum + "&val=" + brtVal, true);
+	xhttp.send();
+}
+
+function getBrightness(chNum) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.timeout = 1000;
 	xhttp.onreadystatechange = function() {

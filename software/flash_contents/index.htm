@@ -5,12 +5,12 @@
   <link rel="stylesheet" type="text/css" href="index.css"> 
   
   <title>ROHL control page</title>
-  <script onload="fillSliders();">
+  <script>
    var sliders_cfg = [
-     {color:"white", name:"Cold white"},
-	 {color:"white", name:"Warm white"},
-	 {color:"white", name:"Blue"},
-	 {color:"white", name:"Royal blue"}
+	{color:"white", name:"Cold white"},
+	{color:"white", name:"Warm white"},
+	{color:"white", name:"Blue"},
+	{color:"white", name:"Royal blue"}
    ]
    function changeNum(val,chNum) {
     document.getElementById("sliderV"+chNum).value = val;
@@ -33,7 +33,7 @@
    }
   </script>
  </head>
- <body>
+ <body  onload="fillSliders();">
   <h2>Status: </h2>
   <div id="stateIndicator"></div>
   <h2>Brightness:</h2>
