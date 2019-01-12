@@ -9,13 +9,13 @@
  <body>
    <div>
 	Time:
-	<input class='time_val' type='number' id='hour' value='0' oninput='' min='0', max='24'><!--whitespace clear
+	<input class='time_val' type='number' id='hour' value='0' oninput='timeEditStart()' min='0', max='24'><!--whitespace clear
 	-->:<!--whitespace clear
-	--><input class='time_val' type='number' id='minutes' value='0' oninput='' min='0', max='60'><!--whitespace clear
+	--><input class='time_val' type='number' id='minutes' value='0' oninput='timeEditStart()' min='0', max='60'><!--whitespace clear
 	-->:<!--whitespace clear
-	--><input class='time_val' type='number' id='secs' value='0' oninput='' min='0', max='60'>
+	--><input class='time_val' type='number' id='secs' value='0' oninput='timeEditStart()' min='0', max='60'>
 	Day:
-	<select class='week_val' id='day_of_week'>
+	<select class='week_val' id='day_of_week' oninput='timeEditStart()'>
 	  <option value="1">Mon</option>
 	  <option value="2">Tue</option>
 	  <option value="3">Wen</option>
@@ -24,7 +24,7 @@
 	  <option value="6">Sat</option>
 	  <option value="7">Sun</option>
 	</select>
-	<button class='set_time' onclick="SetTime()">Set</button>
+	<button class='set_time' onclick="sendTime()">Set</button>
   </div>
   <h2>Status: </h2>
   <div id="stateIndicator"></div>

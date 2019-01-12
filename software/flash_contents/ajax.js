@@ -12,6 +12,7 @@ var sliders_cfg;
 getSliders ();
 var intervStatus;
 var timeUpdateInterv = setInterval(timeUpdate, 500);
+var timeEditTimeout;
 
 
 function getSliders() {
@@ -124,6 +125,7 @@ function sendTime() {
 	val_str += "&day_of_week=" + document.getElementById("day_of_week").value;
 	xhttp.open("GET", "control.htm?cmd=set_time&" + val_str, true);
 	xhttp.send();
+	timeEditEnd();
 }
 
 function timeUpdate () {
@@ -139,4 +141,15 @@ function timeUpdate () {
 		document.getElementById("day_of_week").value = t.day_of_week;
 	};
 	req.send(null);
+}
+
+function timeEditStart () {
+	//disable time update to let user edit something
+	clearInterval(timeUpdateInterv);
+	timeEditTimeout = setTimeout (timeEditEnd, 10000);
+}
+
+function timeEditEnd () {
+	clearTimeout(timeEditTimeout);
+	timeUpdateInterv = setInterval(timeUpdate, 500);
 }

@@ -4,8 +4,7 @@
 import socket 
 import json
 import rohl_rtc
-
-rohl_rtc.start()
+import _thread
 
 #4 channels
 debug = True
@@ -81,7 +80,7 @@ def process_string_purified (conn, req_string_purified):
 		#limit number of splits to 1, which results in exactly two substrings
 		#in example case file_str="test.js", param_str="a=b&c=d"
 		file_str, param_str = req_string_purified.split("?",1)
-		print ("param string: '" + param_str + "'\n")
+		#print ("param string: '" + param_str + "'\n")
 		
 		#output 400 error if there are parameters, but no equal signs
 		if not "=" in param_str:
@@ -93,12 +92,12 @@ def process_string_purified (conn, req_string_purified):
 			params = dict([param_str.split("=",1)])
 		else:
 			params = dict(item.split("=") for item in param_str.split("&"))
-		print ("parameters dictionary: ")
-		print (params)
+		#print ("parameters dictionary: ")
+		#print (params)
 	else:
 		file_str = req_string_purified
 		
-	print ("file string: '" + file_str + "'\n")
+	#print ("file string: '" + file_str + "'\n")
 	if (file_str=="control.htm"):
 		#if parameters are not present - just send confirmation (used for connection check, for example)
 		if not params:
@@ -111,19 +110,49 @@ def process_string_purified (conn, req_string_purified):
 			return False
 			
 		if params["cmd"] == "set_brightn":
-			print ("set_brightn command\n")
+			#print ("set_brightn command\n")
 			try:
-				print (params["ch"])
+				#print (params["ch"])
 				n = int(params["ch"])
-				print ("channel is " + str(n))
+				#print ("channel is " + str(n))
 				
 				if n >= ch_num:
 					raise
 				
 				brt = params["val"]
 				brightness[n] = brt
-				print ("set brightness value " + str(brt))
+				#print ("set brightness value " + str(brt))
 				#brigness is set. Send confirmation
+				send_file_200 (conn, "200.htm")
+
+			except Exception as e: 
+				print(e)
+				send_file_400 (conn, "400.htm")
+		elif params["cmd"] == "set_time":
+			print ("set_time command\n")
+			try:
+				h = int(params["hour"])
+				print ("hour is " + str(h))
+				if (h > 23) or (h < 0):
+					raise
+					
+				m = int(params["minutes"])
+				print ("minutes is " + str(m))
+				if (m > 59) or (m < 0):
+					raise
+					
+				s = int(params["secs"])
+				print ("seconds is " + str(s))
+				if (s > 59) or (s < 0):
+					raise
+				
+				dov = int(params["day_of_week"])
+				print ("day_of_week is " + str(dov))
+				if (dov > 7) or (dov < 1):
+					raise
+				
+				rohl_rtc.rtc.set_time(h,m,s,dov)
+				#time is set. Send confirmation
 				send_file_200 (conn, "200.htm")
 
 			except Exception as e: 
@@ -134,7 +163,7 @@ def process_string_purified (conn, req_string_purified):
 	elif (file_str=="ch_cfg.json"):
 		for i in range(ch_num):
 			 ch_cfg[i]['val'] = brightness[i]
-		print (ch_cfg)
+		#print (ch_cfg)
 		send_json_contents(conn, json.dumps(ch_cfg).encode('utf-8'))
 		
 	elif (file_str=="time.json"):
@@ -149,7 +178,7 @@ def process_string_purified (conn, req_string_purified):
 	else:
 		send_file_200 (conn, file_str)
 
-def server_start ():
+def server_thread ():
 	print("web_server start")
 
 	#Setup Socket WebServer
@@ -158,30 +187,26 @@ def server_start ():
 	s.listen(5)
 	while True:
 		conn, addr = s.accept()
-		print("Got a connection from %s" % str(addr))
+		#print("Got a connection from %s" % str(addr))
 		request = conn.recv(1024)
 
 		try:
 			#separate first line of request
 			#example result: GET /test.js?a=b&c=d HTTP/1.1\r
 			first_str = str(request).split("\\n",1)[0]
-			if debug:
-				print("first_str: \n" + first_str + "\n")
+			#print("first_str: \n" + first_str + "\n")
 			
 			#split line by slashes, results in "test.js?a=b&c=d HTTP"
 			req_string = first_str.split("/")[1]
-			if debug:
-				print("request part of first string with trash: \n" + req_string + "\n")
+			#print("request part of first string with trash: \n" + req_string + "\n")
 				
 			#cut "HTTP" from the end by splitting on space symbol
 			req_string_purified = req_string.split(" ")[0]
-			if debug:
-				print("request part of first string: \n" + req_string_purified + "\n")
+			#print("request part of first string: \n" + req_string_purified + "\n")
 				
 			#if request is root page ("/" only) we'll get empty req_string_purified here.
 			if not req_string_purified:
-				if debug:
-					print("slash only request detected. sending index.htm\n")
+				#print("slash only request detected. sending index.htm\n")
 				send_file_200 (conn, "index.htm")
 			else:
 				process_string_purified(conn, req_string_purified)
@@ -190,4 +215,6 @@ def server_start ():
 			print(e)
 			send_file_400 (conn)
 			
-		print("Connection wth %s closed" % str(addr))
+		#print("Connection wth %s closed" % str(addr))
+
+_thread.start_new_thread(server_thread, ())
