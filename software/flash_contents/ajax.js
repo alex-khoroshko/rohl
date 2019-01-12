@@ -11,6 +11,8 @@ var sliders_cfg;
 /*start loading sequence - continuation is via callbacks*/
 getSliders ();
 var intervStatus;
+var timeUpdateInterv = setInterval(timeUpdate, 500);
+
 
 function getSliders() {
 	var req = new XMLHttpRequest();
@@ -103,4 +105,38 @@ function fillSliders() {
 		changeNum(brt_val, i);
 		changeSlider(brt_val,i);
 	}
+}
+
+function sendTime() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.timeout = 1000;
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			connStateUpdate("Connected");
+		}
+	};
+	/*xhttp.onerror  = function() {
+		connStateUpdate("Disconnected");
+	};*/
+	var val_str = "hour=" + document.getElementById("hour").value;
+	val_str += "&minutes=" + document.getElementById("minutes").value;
+	val_str += "&secs=" + document.getElementById("secs").value;
+	val_str += "&day_of_week=" + document.getElementById("day_of_week").value;
+	xhttp.open("GET", "control.htm?cmd=set_time&" + val_str, true);
+	xhttp.send();
+}
+
+function timeUpdate () {
+	var req = new XMLHttpRequest();
+	req.timeout = 1000;
+	req.responseType = 'json';
+	req.open('GET', "time.json", true);
+	req.onload  = function() {
+		var t = req.response;
+		document.getElementById("hour").value = t.hour;
+		document.getElementById("minutes").value = t.minutes;
+		document.getElementById("secs").value = t.secs;
+		document.getElementById("day_of_week").value = t.day_of_week;
+	};
+	req.send(null);
 }

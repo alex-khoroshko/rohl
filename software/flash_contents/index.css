@@ -5,6 +5,29 @@
 	font-size: 18pt;
 }
 
+#schedule{
+	height:40px;
+	font-size: 12pt;
+	vertical-align: middle;
+}
+.time_val{
+	width:25px;
+	font-size: 12pt;
+	text-align:center;
+	margin-left: 0px;
+}
+.week_val{
+	font-size: 12pt;
+	text-align:center;
+	margin-left: 0px;
+}
+.set_time{
+	font-size: 12pt;
+	text-align:center;
+	margin-left: 0px;
+}
+
+
 .slider_div_left{
 	min-width: 150px;
 	max-width: 150px;

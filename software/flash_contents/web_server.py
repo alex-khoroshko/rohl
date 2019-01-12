@@ -3,6 +3,9 @@
 
 import socket 
 import json
+import rohl_rtc
+
+rohl_rtc.start()
 
 #4 channels
 debug = True
@@ -11,40 +14,62 @@ brightness = [0.0] * ch_num
 ch_cfg = [
 	{"color":"white", "name":"Cold white", 	"val":0.0},
 	{"color":"white", "name":"Warm white", 	"val":0.0},
-	{"color":"white", "name":"Blue", 	"val":0.0},
+	{"color":"white", "name":"Blue", 		"val":0.0},
 	{"color":"white", "name":"Royal blue", 	"val":0.0}
 ]
-
-#TODO: all conn actions should be in try block (connection can be closed)
 
 def send_file (conn, fi):
 	with open(fi, 'rb') as html:
 		data = html.read()
 		conn.sendall(data)
 		
+def send_file_w_header (conn, fi, cont_type):
+	try:
+		conn.sendall(('HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: ' + cont_type + '\r\n\r\n').encode('utf-8'))
+		send_file (conn, fi)
+	except:
+		pass
+		
+	try:
+		conn.close()
+	except:
+		pass
+		
 def send_file_200 (conn, fi):
-	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n')
-	send_file (conn, fi)
+	send_file_w_header (conn, fi, "text/html")
 	
 def send_file_css (conn, fi):
-	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/css\r\n\r\n')
-	send_file (conn, fi)
+	send_file_w_header (conn, fi, "text/css")
 	
 def send_file_js (conn, fi):
-	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: application/javascript\r\n\r\n')
-	send_file (conn, fi)
+	send_file_w_header (conn, fi, "application/javascript")
 
 def send_file_ico (conn, fi):
-	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: image/x-icon\r\n\r\n')
-	send_file (conn, fi)
+	send_file_w_header (conn, fi, "image/x-icon")
 
 def send_json_contents (conn, content):
-	conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: application/json\r\n\r\n')
-	conn.sendall(content)
+	try:
+		conn.sendall(b'HTTP/1.1 200 OK\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: application/json\r\n\r\n')
+		conn.sendall(content)
+	except:
+		pass
+		
+	try:
+		conn.close()
+	except:
+		pass
 
 def send_file_400 (conn):
-	conn.sendall(b'HTTP/1.1 400 Bad Request\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n')
-	send_file (conn, "400.htm")
+	try:
+		conn.sendall(b'HTTP/1.1 400 Bad Request\r\nConnection: close\r\nServer: ROHL\r\nContent-Type: text/html\r\n\r\n')
+		send_file (conn, "400.htm")
+	except:
+		pass
+		
+	try:
+		conn.close()
+	except:
+		pass
 	
 def process_string_purified (conn, req_string_purified):
 	#variable params is used to check, if there were parameters in request. Define in to avoid exceptions
@@ -111,7 +136,9 @@ def process_string_purified (conn, req_string_purified):
 			 ch_cfg[i]['val'] = brightness[i]
 		print (ch_cfg)
 		send_json_contents(conn, json.dumps(ch_cfg).encode('utf-8'))
-		#
+		
+	elif (file_str=="time.json"):
+		send_json_contents(conn, json.dumps(rohl_rtc.time_values).encode('utf-8'))
 		
 	elif ".css" in file_str:
 		send_file_css (conn, file_str)
@@ -163,5 +190,4 @@ def server_start ():
 			print(e)
 			send_file_400 (conn)
 			
-		conn.close()
 		print("Connection wth %s closed" % str(addr))

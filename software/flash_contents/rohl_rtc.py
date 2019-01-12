@@ -4,6 +4,10 @@ import time
 
 rtc_addr = 0x68
 rtc = 0
+time_values = {"hour":0, 
+	"minutes":0,
+	"secs":0, 
+	"day_of_week":0}
 
 def start():
 	rtc = rohl_rtc_()
@@ -14,10 +18,6 @@ class rohl_rtc_:
 		self.scl_pin = machine.Pin(26)
 		self.sda_pin = machine.Pin(27)
 		self.i2c = machine.I2C(sda=self.sda_pin, scl=self.scl_pin)
-		self.sec = 0
-		self.min = 0
-		self.hour = 0
-		self.day_of_week = 0
 		_thread.start_new_thread(self.thread, ())
 		
 	def decode (self, bcd):
@@ -43,13 +43,10 @@ class rohl_rtc_:
 		print("RTC thread started")
 		while True:
 			data = self.i2c.readfrom_mem(rtc_addr, 0, 4)
-			self.sec = self.decode(data[0])
-			self.min = self.decode(data[1])
-			self.hour = self.decode_hour(data[2])
-			self.day_of_week =data[3]
-			print("sec:" + str (self.sec) + " ")
-			print("min:" + str (self.min) + " ")
-			print("hour:" + str (self.hour) + " ")
-			print("day_of_week:" + str (self.day_of_week) + "\n")
+			time_values["secs"] = self.decode(data[0])
+			time_values["minutes"] = self.decode(data[1])
+			time_values["hour"] = self.decode_hour(data[2])
+			time_values["day_of_week"] = data[3]
+			print(time_values)
 			time.sleep(1)
 		
