@@ -15,6 +15,8 @@ var intervStatus;
 var timeUpdateInterv;
 timeEditEnd();
 
+/* global variables to fill time edit form on push Edit button*/
+var time_values;
 
 function getSliders() {
 	var req = new XMLHttpRequest();
@@ -135,11 +137,8 @@ function timeUpdate () {
 	req.responseType = 'json';
 	req.open('GET', "time.json", true);
 	req.onload  = function() {
-		var t = req.response;
-		document.getElementById("hour").value = t.hour;
-		document.getElementById("minutes").value = t.minutes;
-		document.getElementById("secs").value = t.secs;
-		document.getElementById("day_of_week").value = t.day_of_week;
+		time_values = req.response;
+		insertTime(time_values.hour, time_values.minutes, time_values.secs, time_values.day_of_week);
 	};
 	req.send(null);
 }
@@ -147,13 +146,12 @@ function timeUpdate () {
 function timeEditStart () {
 	//disable time update to let user edit something
 	clearInterval(timeUpdateInterv);
-	document.getElementById("time_val").innerHTML = `Time:
-	<input class='time_editbox' type='number' id='hour' value='0' min='0', max='24'><!--whitespace clear
+	document.getElementById("time_val").innerHTML = `
+	<input class='time_editbox' type='number' id='hour' value='` + time_values.hour +`' min='0', max='24'><!--whitespace clear
 	-->:<!--whitespace clear
-	--><input class='time_editbox' type='number' id='minutes' value='0' min='0', max='60'><!--whitespace clear
+	--><input class='time_editbox' type='number' id='minutes' value='`+time_values.minutes+`' min='0', max='60'><!--whitespace clear
 	-->:<!--whitespace clear
-	--><input class='time_editbox' type='number' id='secs' value='0' min='0', max='60'><br>
-	Day:
+	--><input class='time_editbox' type='number' id='secs' value='`+time_values.secs+`' min='0', max='60'><br>
 	<select class='week_selector' id='day_of_week'>
 	  <option value="1">Mon</option>
 	  <option value="2">Tue</option>
@@ -163,13 +161,45 @@ function timeEditStart () {
 	  <option value="6">Sat</option>
 	  <option value="7">Sun</option>
 	</select>;`;
+	document.getElementById("day_of_week").value = time_values.day_of_week;
 	document.getElementById("time_button_div").innerHTML = `
 		<button type="button" class="time_button" onclick="sendTime()">Set</button>
 		<button type="button" class="time_button" onclick="timeEditEnd()">Cancel</button>`;
 }
 
+function timeFormat (val) {
+	return String("0" + val).slice(-2);
+}
+
 function insertTime (h,m,s,dow) {
-	document.getElementById("time_val").innerHTML = "Time: "+h+":"+m+":"+s+"<br>Day: "+dow;
+	var dowText = "---";
+	switch(dow) {
+		case 1:
+			dowText = "Mon";
+		break;
+		case 2:
+			dowText = "Tue";
+		break;
+		case 3:
+			dowText = "Wen";
+		break;
+		case 4:
+			dowText = "Thu";
+		break;
+		case 5:
+			dowText = "Fri";
+		break;
+		case 6:
+			dowText = "Sat";
+		break;
+		case 7:
+			dowText = "Sun";
+		break;
+		default:
+		break;		
+	}
+		
+	document.getElementById("time_val").innerHTML = "" + timeFormat(h) +":" + timeFormat(m) + ":"+ timeFormat(s) + "<br>"+dowText;
 }
 function insertDefaultTime () {
 	insertTime("--","--","--","---");
