@@ -10,16 +10,47 @@
 	font-size: 12pt;
 	vertical-align: middle;
 }
+
+#time_val{
+	min-width: 120px;
+	max-width: 120px;
+	height:100%;
+	display:table-cell;
+	font-size: 12pt;
+}
+#time_button_div{
+	position: relative;
+	display:table-cell;
+	width:100%;
+	text-align:center;
+	vertical-align: middle;
+}
+.time_button{
+	padding: 0;
+	margin: 0, 0;
+	border-radius: 4px;
+	border-style:solid;
+	border-width:1px;
+	border-color:black;
+	text-align:center;
+	width:50px;
+}
 .time_editbox{
 	width:15px;
 	font-size: 10pt;
 	text-align:center;
 	margin-left: 0px;
+	border-radius: 4px;
+	border-style:solid;
+	border-width:1px
 }
 .week_selector{
 	font-size: 10pt;
 	text-align:center;
 	margin-left: 0px;
+	border-radius: 4px;
+	border-style:solid;
+	border-width:1px
 }
 .set_time{
 	font-size: 12pt;
@@ -49,26 +80,8 @@
     display:table-cell;
 	font-size: 12pt;
 }
-#time{
-	border: 10px;
-	border-color: black;
-	display:table-cell;
-}
-#time_val{
-	min-width: 120px;
-	max-width: 120px;
-	height:100%;
-    display:table-cell;
-	font-size: 12pt;
-}
-#time_button_div{
-	position: relative;
-	display:table-cell;
-	width:100%;
-	text-align:center;
-	font-size: 18pt;
-	vertical-align: middle;
-}
+
+
 
 .slider_div_left{
 	min-width: 150px;
