@@ -29,7 +29,7 @@ function getSliders() {
 }
 
 function connStateUpdate(state) {
-	document.getElementById("stateIndicator").innerHTML = state;
+	document.getElementById("telemetry_center").innerHTML = state;
 	if (state=="Connected") {
 		document.getElementById("stateIndicator").style.backgroundColor = "#00cc99";
 	}
@@ -147,6 +147,7 @@ function timeEditStart () {
 	//disable time update to let user edit something
 	clearInterval(timeUpdateInterv);
 	timeEditTimeout = setTimeout (timeEditEnd, 10000);
+	document.getElementById("time").innerHTML = 1;
 }
 
 function timeEditEnd () {

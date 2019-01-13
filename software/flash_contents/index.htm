@@ -7,27 +7,16 @@
   <title>ROHL control page</title>
  </head>
  <body>
-   <div>
-	Time:
-	<input class='time_val' type='number' id='hour' value='0' oninput='timeEditStart()' min='0', max='24'><!--whitespace clear
-	-->:<!--whitespace clear
-	--><input class='time_val' type='number' id='minutes' value='0' oninput='timeEditStart()' min='0', max='60'><!--whitespace clear
-	-->:<!--whitespace clear
-	--><input class='time_val' type='number' id='secs' value='0' oninput='timeEditStart()' min='0', max='60'>
-	Day:
-	<select class='week_val' id='day_of_week' oninput='timeEditStart()'>
-	  <option value="1">Mon</option>
-	  <option value="2">Tue</option>
-	  <option value="3">Wen</option>
-	  <option value="4">Thu</option>
-	  <option value="5">Fri</option>
-	  <option value="6">Sat</option>
-	  <option value="7">Sun</option>
-	</select>
-	<button class='set_time' onclick="sendTime()">Set</button>
-  </div>
   <h2>Status: </h2>
-  <div id="stateIndicator"></div>
+  <div id="stateIndicator">
+	  <div id="telemetry_left">
+	    <div id="time">Time: 12:11:21 <button type="button">Edit</button></div>
+		Board: 10 &deg C<br>
+		LED: 10 &deg C
+	  </div>
+	  <div id="telemetry_center"></div>
+	  <div id="telemetry_left"></div>
+  </div>
   <h2>Schedule: </h2>
 
   <h2>Brightness:</h2>
