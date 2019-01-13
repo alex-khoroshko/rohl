@@ -10,9 +10,12 @@
   <h2>Status: </h2>
   <div id="stateIndicator">
 	  <div id="telemetry_left">
-	    <div id="time">Time: 12:11:21 <button type="button">Edit</button></div>
-		Board: 10 &deg C<br>
-		LED: 10 &deg C
+		<div id="time">
+			<div id="time_val"></div>
+			<div id="time_button_div"><button type="button" id="time_button" onclick="timeEditStart()">Edit</button></div>
+		</div>
+		Board: 10 &degC<br>
+		LED: 10 &degC
 	  </div>
 	  <div id="telemetry_center"></div>
 	  <div id="telemetry_left"></div>
@@ -32,4 +35,3 @@
  </body>
  <script src="ajax.js"></script>
 </html>
-<!--лцр-100-->

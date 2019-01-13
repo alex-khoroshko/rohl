@@ -10,6 +10,7 @@ var sliders_cfg = [
 var sliders_cfg;
 /*start loading sequence - continuation is via callbacks*/
 getSliders ();
+insertDefaultTime();
 var intervStatus;
 var timeUpdateInterv = setInterval(timeUpdate, 500);
 var timeEditTimeout;
@@ -147,10 +148,37 @@ function timeEditStart () {
 	//disable time update to let user edit something
 	clearInterval(timeUpdateInterv);
 	timeEditTimeout = setTimeout (timeEditEnd, 10000);
-	document.getElementById("time").innerHTML = 1;
+	document.getElementById("time_val").innerHTML = `Time:
+	<input class='time_editbox' type='number' id='hour' value='0' min='0', max='24'><!--whitespace clear
+	-->:<!--whitespace clear
+	--><input class='time_editbox' type='number' id='minutes' value='0' min='0', max='60'><!--whitespace clear
+	-->:<!--whitespace clear
+	--><input class='time_editbox' type='number' id='secs' value='0' min='0', max='60'><br>
+	Day:
+	<select class='week_selector' id='day_of_week'>
+	  <option value="1">Mon</option>
+	  <option value="2">Tue</option>
+	  <option value="3">Wen</option>
+	  <option value="4">Thu</option>
+	  <option value="5">Fri</option>
+	  <option value="6">Sat</option>
+	  <option value="7">Sun</option>
+	</select>;`;
+	document.getElementById("time_button_div").innerHTML = `
+		<button type="button" onclick="sendTime()">Set</button>
+		<button type="button" onclick="timeEditEnd()">Cancel</button>`;
+}
+
+function insertTime (h,m,s,dow) {
+	document.getElementById("time_val").innerHTML = "Time: "+h+":"+m+":"+s+"<br>Day: "+dow;
+}
+function insertDefaultTime () {
+	insertTime("--","--","--","---");
 }
 
 function timeEditEnd () {
 	clearTimeout(timeEditTimeout);
 	timeUpdateInterv = setInterval(timeUpdate, 500);
+	insertDefaultTime();
+	document.getElementById("time_button_div").innerHTML = `<button type="button" id="time_button" onclick="timeEditStart()">Edit</button>`;
 }

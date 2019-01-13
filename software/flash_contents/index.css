@@ -10,14 +10,14 @@
 	font-size: 12pt;
 	vertical-align: middle;
 }
-.time_val{
-	width:25px;
-	font-size: 12pt;
+.time_editbox{
+	width:15px;
+	font-size: 10pt;
 	text-align:center;
 	margin-left: 0px;
 }
-.week_val{
-	font-size: 12pt;
+.week_selector{
+	font-size: 10pt;
 	text-align:center;
 	margin-left: 0px;
 }
@@ -28,8 +28,8 @@
 }
 
 #telemetry_left{
-	min-width: 150px;
-	max-width: 150px;
+	min-width: 200px;
+	max-width: 200px;
 	height:100%;
     display:table-cell;
 	font-size: 12pt;
@@ -43,11 +43,31 @@
 	vertical-align: middle;
 }
 #telemetry_right{
-	min-width: 150px;
-	max-width: 150px;
+	min-width: 200px;
+	max-width: 200px;
 	height:100%;
     display:table-cell;
 	font-size: 12pt;
+}
+#time{
+	border: 10px;
+	border-color: black;
+	display:table-cell;
+}
+#time_val{
+	min-width: 120px;
+	max-width: 120px;
+	height:100%;
+    display:table-cell;
+	font-size: 12pt;
+}
+#time_button_div{
+	position: relative;
+	display:table-cell;
+	width:100%;
+	text-align:center;
+	font-size: 18pt;
+	vertical-align: middle;
 }
 
 .slider_div_left{
