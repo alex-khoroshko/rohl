@@ -1,7 +1,7 @@
-from machine import ADC
+from machine import Pin, ADC
 import math
 
-Rpu = 100000
+Rpu = 10000
 R0	= 10000
 #T0 is converted to Kelvins 
 T0	= 25 + 273.15
@@ -19,7 +19,9 @@ thermist_led.atten(ADC.ATTN_11DB)
 def v_to_t (voltage):
 	#divider formula: V = Vin*R/(Rpu+R) -> V*(Rpu+R) = Vin*R -> 
 	#Vin*R - V*R = V*Rpu -> R*(Vin-V) = V*Rpu -> R = V*Rpu/(Vin-V)
-	R = voltage*Rpu/(voltage - 3.3)
+	if (voltage<=0 or voltage>=3.3):
+		return -273.15
+	R = voltage*Rpu/(3.3 - voltage)
 	
 	#from wikipedia - 1/T = 1/T0 + (1/B)*ln(R/R0), here T and T0 - absolute temperatures!
 	rev_t = 1/T0 + (1/B) * math.log(R/R0)
@@ -36,4 +38,4 @@ def adc_to_t (adc_val):
 def get ():
 	t_b = adc_to_t(thermist_board.read())
 	t_led = adc_to_t(thermist_led.read())
-	return {t_b, t_led}
+	return t_b, t_led

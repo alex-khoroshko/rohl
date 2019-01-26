@@ -5,7 +5,6 @@ import socket
 import json
 import rohl_rtc
 import rohl_pwm
-import rohl_file
 import rohl_adc
 import _thread
 
@@ -174,7 +173,7 @@ def process_string_purified (conn, req_string_purified):
 		send_json_contents(conn, json.dumps(rohl_rtc.time_values).encode('utf-8'))
 		
 	elif (file_str=="telem.json"):
-		{t_b, t_led} = rohl_adc.get()
+		t_b, t_led = rohl_adc.get()
 		telem = {
 			"t_board": t_b,
 			"t_led": t_led
