@@ -4,6 +4,9 @@
 import socket 
 import json
 import rohl_rtc
+import rohl_pwm
+import rohl_file
+import rohl_adc
 import _thread
 
 #4 channels
@@ -121,6 +124,7 @@ def process_string_purified (conn, req_string_purified):
 				
 				brt = params["val"]
 				brightness[n] = brt
+				rohl_pwm.set(n,brt)
 				#print ("set brightness value " + str(brt))
 				#brigness is set. Send confirmation
 				send_file_200 (conn, "200.htm")
@@ -169,6 +173,14 @@ def process_string_purified (conn, req_string_purified):
 	elif (file_str=="time.json"):
 		send_json_contents(conn, json.dumps(rohl_rtc.time_values).encode('utf-8'))
 		
+	elif (file_str=="telem.json"):
+		{t_b, t_led} = rohl_adc.get()
+		telem = {
+			"t_board": t_b,
+			"t_led": t_led
+		}
+		send_json_contents(conn, json.dumps(telem).encode('utf-8'))
+		
 	elif ".css" in file_str:
 		send_file_css (conn, file_str)
 	elif ".js" in file_str:
@@ -179,7 +191,7 @@ def process_string_purified (conn, req_string_purified):
 		send_file_200 (conn, file_str)
 
 def server_thread ():
-	print("web_server start")
+	print("web_server start\n")
 
 	#Setup Socket WebServer
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

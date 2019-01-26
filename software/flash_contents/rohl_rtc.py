@@ -53,7 +53,7 @@ class rohl_rtc_:
 			time_values["hour"] = self.decode_hour(data[2])
 			time_values["day_of_week"] = data[3]
 			#print(time_values)
-			time.sleep(1)
+			time.sleep(0.5)
 		
 		
 rtc = rohl_rtc_()
