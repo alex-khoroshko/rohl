@@ -1,0 +1,8 @@
+1. Change battery charge resistor to 10k
+2. 3.3V inductor footprint too small
+3. diode footprint too small
+4. make LED ic thermal pin footprint wider
+5. replace flash jumper with button
+6. remove or move to other IO line "usb_present" (messes up with boot mode)
+7. remove traces from under ESP32
+8.
