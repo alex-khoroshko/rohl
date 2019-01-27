@@ -121,7 +121,7 @@ def process_string_purified (conn, req_string_purified):
 				if n >= ch_num:
 					raise
 				
-				brt = params["val"]
+				brt = int(params["val"])
 				brightness[n] = brt
 				rohl_pwm.set(n,brt)
 				#print ("set brightness value " + str(brt))
@@ -175,8 +175,8 @@ def process_string_purified (conn, req_string_purified):
 	elif (file_str=="telem.json"):
 		t_b, t_led = rohl_adc.get()
 		telem = {
-			"t_board": t_b,
-			"t_led": t_led
+			"t_board": int(t_b),
+			"t_led": int(t_led)
 		}
 		send_json_contents(conn, json.dumps(telem).encode('utf-8'))
 		
