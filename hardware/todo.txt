@@ -5,4 +5,4 @@
 5. replace flash jumper with button
 6. remove or move to other IO line "usb_present" (messes up with boot mode)
 7. remove traces from under ESP32
-8.
+8. fix EMC problems for board thermistor (set capacitor near ESP32 or add filter like for LED board)
