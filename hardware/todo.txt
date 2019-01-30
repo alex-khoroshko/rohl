@@ -1,8 +1,9 @@
 1. Change battery charge resistor to 10k
 2. 3.3V inductor footprint too small
-3. diode footprint too small
-4. make LED ic thermal pin footprint wider
-5. replace flash jumper with button
-6. remove or move to other IO line "usb_present" (messes up with boot mode)
-7. remove traces from under ESP32
-8. fix EMC problems for board thermistor (set capacitor near ESP32 or add filter like for LED board)
+3. Diode footprint too small
+4. Make LED ic thermal pin footprint wider
+5. Replace flash jumper with button
+6. Remove or move to other IO line "usb_present" (messes up with boot mode)
+7. Remove traces from under ESP32
+8. Fix EMC problems for board thermistor (set capacitor near ESP32 or add filter like for LED board)
+9. Remove CP2102 completely. Use PLS header for UART programming. Use same header for ESP32 boot mode selection
