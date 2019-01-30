@@ -15,5 +15,7 @@ def set (ch, val):
 		pwm3.duty(val)
 	elif (ch==3):
 		pwm4.duty(val)
+		pwm5.duty(val)
 	elif (ch==4):
 		pwm5.duty(val)
+		pwm4.duty(val)
