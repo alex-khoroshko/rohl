@@ -7,3 +7,5 @@
 7. Remove traces from under ESP32
 8. Fix EMC problems for board thermistor (set capacitor near ESP32 or add filter like for LED board)
 9. Remove CP2102 completely. Use PLS header for UART programming. Use same header for ESP32 boot mode selection
+10. add to header #9 pin to control firmware mode (to load server, or stay in webrepl mode)
+11. add "reset" button
