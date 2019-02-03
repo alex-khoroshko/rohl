@@ -7,6 +7,7 @@ pwm4 = PWM(Pin(22), freq=1000, duty=0)
 pwm5 = PWM(Pin(23), freq=1000, duty=0)
 
 def set (ch, val):
+	val = int(val*10.23)
 	if (ch==0):
 		pwm1.duty(val)
 	elif (ch==1):

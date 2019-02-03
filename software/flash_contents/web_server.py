@@ -15,7 +15,7 @@ brightness = [0.0] * ch_num
 ch_cfg = [
 	{"color":"white", "name":"Cold white", 	"val":0.0},
 	{"color":"white", "name":"Warm white", 	"val":0.0},
-	{"color":"white", "name":"Blue", 		"val":0.0},
+	{"color":"white", "name":"Blue", 	"val":0.0},
 	{"color":"white", "name":"Royal blue", 	"val":0.0}
 ]
 
