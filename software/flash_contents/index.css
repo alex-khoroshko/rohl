@@ -73,10 +73,18 @@
     display:table-cell;
 	font-size: 12pt;
 }
-#telemetry_values{
+.telemetry_values{
 	height:100%;
     display:table-cell;
 	font-size: 12pt;
+}
+.telemetry_value{
+	float:left;
+	height:100%;
+	width:30px;
+    display:table-cell;
+	font-size: 12pt;
+	text-align:right;
 }
 
 #telemetry_center{

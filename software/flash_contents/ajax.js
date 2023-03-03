@@ -14,6 +14,8 @@ getSliders ();
 var intervStatus;
 var timeUpdateInterv;
 timeEditEnd();
+setInterval(updateTelem, 1000);
+
 
 /* global variables to fill time edit form on push Edit button*/
 var time_values;
@@ -139,6 +141,18 @@ function timeUpdate () {
 	req.onload  = function() {
 		time_values = req.response;
 		insertTime(time_values.hour, time_values.minutes, time_values.secs, time_values.day_of_week);
+	};
+	req.send(null);
+}
+
+function updateTelem () {
+	var req = new XMLHttpRequest();
+	req.timeout = 1000;
+	req.responseType = 'json';
+	req.open('GET', "telem.json", true);
+	req.onload  = function() {
+		document.getElementById("tempr_board").innerHTML = req.response.t_board;
+		document.getElementById("tempr_led").innerHTML = req.response.t_led;
 	};
 	req.send(null);
 }

@@ -4,6 +4,8 @@
 import socket 
 import json
 import rohl_rtc
+import rohl_pwm
+import rohl_adc
 import _thread
 
 #4 channels
@@ -13,7 +15,7 @@ brightness = [0.0] * ch_num
 ch_cfg = [
 	{"color":"white", "name":"Cold white", 	"val":0.0},
 	{"color":"white", "name":"Warm white", 	"val":0.0},
-	{"color":"white", "name":"Blue", 		"val":0.0},
+	{"color":"white", "name":"Blue", 	"val":0.0},
 	{"color":"white", "name":"Royal blue", 	"val":0.0}
 ]
 
@@ -119,8 +121,9 @@ def process_string_purified (conn, req_string_purified):
 				if n >= ch_num:
 					raise
 				
-				brt = params["val"]
+				brt = int(params["val"])
 				brightness[n] = brt
+				rohl_pwm.set(n,brt)
 				#print ("set brightness value " + str(brt))
 				#brigness is set. Send confirmation
 				send_file_200 (conn, "200.htm")
@@ -169,6 +172,14 @@ def process_string_purified (conn, req_string_purified):
 	elif (file_str=="time.json"):
 		send_json_contents(conn, json.dumps(rohl_rtc.time_values).encode('utf-8'))
 		
+	elif (file_str=="telem.json"):
+		t_b, t_led = rohl_adc.get()
+		telem = {
+			"t_board": int(t_b),
+			"t_led": int(t_led)
+		}
+		send_json_contents(conn, json.dumps(telem).encode('utf-8'))
+		
 	elif ".css" in file_str:
 		send_file_css (conn, file_str)
 	elif ".js" in file_str:
@@ -179,7 +190,7 @@ def process_string_purified (conn, req_string_purified):
 		send_file_200 (conn, file_str)
 
 def server_thread ():
-	print("web_server start")
+	print("web_server start\n")
 
 	#Setup Socket WebServer
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
